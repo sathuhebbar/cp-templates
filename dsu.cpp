@@ -1,19 +1,26 @@
 #include <bits/stdc++.h>
 
 using namespace std;
+
 class dsu {
     int n;
+    int n_components;
     vector<int> parent, rank;
 
 public:
     dsu(int n) {
         assert(n > 0);
         this->n = n;
+        n_components = n;
         parent.resize(n);
         rank.resize(n);
 
         iota(parent.begin(), parent.end(), 0);
         fill(rank.begin(), rank.end(), 1);
+    }
+
+    int number_of_components() {
+        return n_components;
     }
 
     int find_set(int v) {
@@ -30,6 +37,7 @@ public:
         v = find_set(v);
 
         if (u != v) {
+            n_components--;
             if (rank[v] < rank[u])
                 swap(u, v);
             
@@ -54,5 +62,7 @@ int main() {
     cout << d.find_set(3) << '\n';
     cout << d.find_set(9) << '\n';
     cout << d.find_set(5) << '\n';
+
+    cout << d.number_of_components() << '\n';
     return 0;
 }
